@@ -1,5 +1,5 @@
 function App() {
-  return <div className="">Hello</div>;
+  return <div className="w-full min-h-screen flex"></div>;
 }
 
 export default App;
