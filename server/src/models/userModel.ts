@@ -7,7 +7,8 @@ enum Gender {
 }
 
 export interface IUser extends Document {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   createdAt: Date;
@@ -18,9 +19,13 @@ export interface IUser extends Document {
 
 const userSchema = new mongoose.Schema<IUser>(
   {
-    fullName: {
+    firstName: {
       type: String,
       required: true,
+      trim: true,
+    },
+    lastName: {
+      type: String,
       trim: true,
     },
     email: {

@@ -18,6 +18,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(express.json()); // to parse json payload from request body
 
 // Routes
 
