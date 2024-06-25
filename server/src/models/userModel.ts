@@ -1,6 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
-enum Gender {
+export enum Gender {
   Male = "male",
   Female = "female",
   Other = "other",
@@ -46,14 +46,6 @@ const userSchema = new mongoose.Schema<IUser>(
     profilePic: {
       type: String,
       default: "",
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
     },
   },
   {

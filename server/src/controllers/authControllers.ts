@@ -31,7 +31,7 @@ const loginUser = async (req: Request, res: Response) => {
 
     // generate JWT and set cookie
     const jwt = generateJWT(user._id as string);
-    res.cookie("chatapp-jwt", jwt, {
+    res.cookie("chatapp_jwt", jwt, {
       maxAge: 15 * 24 * 60 * 60 * 1000, // milliseconds
       httpOnly: true, // prevent XSS attacks
       sameSite: "strict", // prevent CSRF attacks
@@ -72,6 +72,13 @@ const registerUser = async (req: Request, res: Response) => {
         .json({ status: "error", msg: "Passwords do not match" });
     }
 
+    // check gender
+    // if (Gender.includes(gender)) {
+    //   return res
+    //     .status(400)
+    //     .json({ status: "error", msg: "Please select proper gender" });
+    // }
+
     // check if email already exists
     const user = await UserModel.findOne({ email });
 
@@ -109,7 +116,7 @@ const registerUser = async (req: Request, res: Response) => {
         secure: process.env.NODE_ENV !== "development",
       });
 
-      return res.status(200).json({
+      return res.status(201).json({
         status: "success",
         msg: "User registered successfully",
         data: newUser,

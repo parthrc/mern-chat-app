@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 require("dotenv").config();
 
 import authRoutes from "./routes/authRoutes";
+import messageRoutes from "./routes/messageRoutes";
 import connectToMongoDB from "./db/connection";
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.json()); // to parse json payload from request body
 // Routes
 
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.listen(PORT, () => {
   connectToMongoDB();
