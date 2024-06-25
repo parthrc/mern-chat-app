@@ -4,7 +4,11 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 require("dotenv").config();
 
+import authRoutes from "./routes/authRoutes";
+
 const app = express();
+
+const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
@@ -14,8 +18,12 @@ app.use(
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-app.listen(8000, () => {
-  console.log("Server running on 8000");
+// Routes
+
+app.use("/api/auth", authRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 export default app;
