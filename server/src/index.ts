@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 require("dotenv").config();
 
 import authRoutes from "./routes/authRoutes";
+import connectToMongoDB from "./db/connection";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
+  connectToMongoDB();
   console.log(`Server running on port ${PORT}`);
 });
 
