@@ -6,6 +6,7 @@ require("dotenv").config();
 
 import authRoutes from "./routes/authRoutes";
 import messageRoutes from "./routes/messageRoutes";
+import userRoutes from "./routes/userRoutes";
 import connectToMongoDB from "./db/connection";
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(express.json()); // to parse json payload from request body
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   connectToMongoDB();

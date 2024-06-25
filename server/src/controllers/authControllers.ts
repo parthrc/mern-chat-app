@@ -109,7 +109,7 @@ const registerUser = async (req: Request, res: Response) => {
 
       // generate JWT and set cookie
       const jwt = generateJWT(newUser._id as string);
-      res.cookie("chatapp-jwt", jwt, {
+      res.cookie("chatapp_jwt", jwt, {
         maxAge: 15 * 24 * 60 * 60 * 1000, // milliseconds
         httpOnly: true, // prevent XSS attacks
         sameSite: "strict", // prevent CSRF attacks
@@ -133,7 +133,7 @@ const registerUser = async (req: Request, res: Response) => {
 
 const logoutUser = (req: Request, res: Response) => {
   try {
-    res.cookie("chatapp-jwt", "", { maxAge: 0 });
+    res.cookie("chatapp_jwt", "", { maxAge: 0 });
     res.status(200).json({ status: "success", msg: "Logged out successfully" });
   } catch (error) {
     return res.status(500).json({ status: "error", msg: error.message });
