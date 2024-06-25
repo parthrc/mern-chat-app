@@ -1,12 +1,12 @@
 import mongoose, { Document, mongo } from "mongoose";
 
-export interface iMessage extends Document {
+export interface IMessage extends Document {
   senderId: mongoose.Schema.Types.ObjectId;
   receiverId: mongoose.Schema.Types.ObjectId;
   message: string;
 }
 
-const messageSchema = new mongoose.Schema<iMessage>(
+const messageSchema = new mongoose.Schema<IMessage>(
   {
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -28,6 +28,6 @@ const messageSchema = new mongoose.Schema<iMessage>(
   }
 );
 
-const MessageModel = mongoose.model<iMessage>("Message", messageSchema);
+const MessageModel = mongoose.model<IMessage>("Message", messageSchema);
 
 export default MessageModel;
