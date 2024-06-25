@@ -8,13 +8,13 @@ enum Gender {
 
 export interface IUser extends Document {
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
   password: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   gender: Gender;
-  profilePic: string;
+  profilePic?: string;
 }
 
 const userSchema = new mongoose.Schema<IUser>(
