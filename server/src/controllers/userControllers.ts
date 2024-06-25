@@ -32,7 +32,9 @@ const getUsersForSidebar = async (req: ProtectedRequest, res: Response) => {
     // Step 3: Find user details for those participant IDs
     const usersWithActiveConversations = await UserModel.find({
       _id: { $in: participantIdArray },
-    }).exec();
+    })
+      .select("-password")
+      .exec();
 
     // Return the users
     return res.status(200).json({
