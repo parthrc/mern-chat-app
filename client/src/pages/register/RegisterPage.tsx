@@ -14,6 +14,7 @@ import { Input } from "../../components/ui/input";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
+import useRegister from "../../hooks/useRegister";
 
 // form schema
 const formSchema = z
@@ -33,6 +34,8 @@ const formSchema = z
   });
 
 const RegisterPage = () => {
+  const { isLoading, registerApi } = useRegister();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,10 +51,28 @@ const RegisterPage = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast.success(values.email);
+    try {
+      console.log(values);
+      toast.success(values.email);
 
-    form.reset();
+      const res = await registerApi({
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+        gender: values.gender,
+        firstName: values.firstName,
+        lastName: values.lastName,
+      });
+
+      if (res.status === "success") {
+        toast.success("User registered successfully");
+        form.reset(); // Reset the form on success
+      } else {
+        toast.error(res.msg || "Registration failed");
+      }
+    } catch (error) {
+      toast.error("An error occurred during registration");
+    }
   }
   return (
     <div className="flex flex-col w-full min-h-screen items-center bg-slate-200">
@@ -192,7 +213,11 @@ const RegisterPage = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-fit mt-4 mx-auto">
+            <Button
+              type="submit"
+              className="w-fit mt-4 mx-auto"
+              disabled={isLoading}
+            >
               Register
             </Button>
             <span className="mx-auto">
