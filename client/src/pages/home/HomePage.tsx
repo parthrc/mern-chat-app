@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Button } from "../../components/ui/button";
+// import { Link } from "react-router-dom";
+// import { Button } from "../../components/ui/button";
 import Dashboard from "./components/Dashboard";
 
 const HomePage = () => {

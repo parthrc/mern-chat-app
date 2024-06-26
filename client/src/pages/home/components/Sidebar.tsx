@@ -4,7 +4,7 @@ import SidebarHeader from "./SidebarHeader";
 
 const Sidebar = () => {
   return (
-    <div className="flex w-full flex-col lg:min-w-[20rem] lg:w-[20rem] bg-pink-300 max-h-screen">
+    <div className="flex w-full flex-col lg:min-w-[20rem] lg:w-[20rem] bg-pink-300 max-h-screen border-r">
       <SidebarHeader />
       <SearchBar />
 
