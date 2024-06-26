@@ -26,7 +26,10 @@ const SidebarHeader = () => {
   return (
     <div className="bg-slate-950 text-white px-4 py-3 flex items-center gap-x-2 justify-between">
       {/* Profile pic */}
-      <AvatarImg />
+      <div className="flex gap-x-2 items-center w-full">
+        <AvatarImg />
+        <p className=" truncate text-white">{`${user?.firstName} ${user?.lastName}`}</p>
+      </div>
 
       <div className="flex items-center gap-x-4">
         {/* Dark mode toggle */}
@@ -40,7 +43,7 @@ const SidebarHeader = () => {
             </div>
           </PopoverTrigger>
           <PopoverContent className="z-[99999] divide-y-2">
-            <div className="flex items-center cursor-pointer p-2 rounded-sm gap-x-2 text-ellipsis">
+            <div className="flex items-center cursor-pointer p-2 rounded-sm gap-x-2 text-ellipsis ">
               {`${user?.firstName}'s app`}
             </div>
             <div

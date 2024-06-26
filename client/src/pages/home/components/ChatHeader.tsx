@@ -1,6 +1,7 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AvatarImg from "./AvatarImg";
 const ChatHeader = () => {
+
   return (
     <div className="bg-slate-950 text-white px-4 py-3 flex items-center gap-x-2 justify-between">
       {/* Profile pic */}

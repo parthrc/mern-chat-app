@@ -12,7 +12,7 @@ const ChatInput = () => {
       {/* Main input */}
       <Input
         type="text"
-        className="w-full"
+        className="w-full text-black"
         placeholder="type your message here..."
       />
       {/* Send button */}
