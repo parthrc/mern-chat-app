@@ -140,7 +140,12 @@ const registerUser = async (req: Request, res: Response) => {
 
 const logoutUser = (req: Request, res: Response) => {
   try {
-    res.cookie("chatapp_jwt", "", { maxAge: 0 });
+    res.cookie("chatapp_jwt", "", {
+      maxAge: 0,
+      httpOnly: true, // prevent XSS attacks
+      sameSite: "strict", // prevent CSRF attacks
+      secure: process.env.NODE_ENV !== "development",
+    });
     res.status(200).json({ status: "success", msg: "Logged out successfully" });
   } catch (error) {
     return res.status(500).json({ status: "error", msg: error.message });

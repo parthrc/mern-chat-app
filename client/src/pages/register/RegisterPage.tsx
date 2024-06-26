@@ -147,6 +147,7 @@ const RegisterPage = () => {
                     <FormLabel className="lg:text-xl">Enter password</FormLabel>
                     <FormControl>
                       <Input
+                        type="password"
                         placeholder="enter password"
                         {...field}
                         className="lg:text-xl"
@@ -166,6 +167,7 @@ const RegisterPage = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
+                        type="password"
                         placeholder="enter password again"
                         {...field}
                         className="lg:text-xl"

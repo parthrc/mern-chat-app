@@ -37,8 +37,6 @@ const LoginPage = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-
-
       const res = await loginApi({
         email: values.email,
         password: values.password,
@@ -47,7 +45,7 @@ const LoginPage = () => {
       if (res.status === "success") {
         login(res.data);
         toast.success("User login success");
-        navigate("/"); 
+        navigate("/");
       } else {
         toast.error(res.msg || "Login failed");
       }
@@ -94,6 +92,7 @@ const LoginPage = () => {
                   <FormLabel className="lg:text-2xl">Password</FormLabel>
                   <FormControl>
                     <Input
+                      type="password"
                       placeholder="enter password"
                       {...field}
                       className="lg:text-2xl"

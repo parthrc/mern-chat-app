@@ -9,13 +9,17 @@ import {
   PopoverTrigger,
 } from "../../../components/ui/popover";
 import { useAuth } from "../../../context/AuthContext";
+import useLogout from "../../../hooks/useLogout";
 
 const SidebarHeader = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { logoutApi } = useLogout();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     logout();
+    const res = await logoutApi();
+    console.log(res);
     navigate("/login");
   };
 
