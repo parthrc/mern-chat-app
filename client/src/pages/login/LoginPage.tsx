@@ -12,7 +12,9 @@ import {
 } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import useLogin from "../../hooks/useLogin";
 
 const formSchema = z.object({
   email: z.string().min(1, { message: "Email is required" }),
@@ -20,6 +22,9 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const { loginApi } = useLogin();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -31,9 +36,26 @@ const LoginPage = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast.success(values.email);
-    form.reset();
+    try {
+
+
+      const res = await loginApi({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (res.status === "success") {
+        login(res.data);
+        toast.success("User login success");
+        navigate("/"); 
+      } else {
+        toast.error(res.msg || "Login failed");
+      }
+    } catch (error) {
+      toast.error("An error occurred during login");
+    } finally {
+      form.reset();
+    }
   }
 
   return (

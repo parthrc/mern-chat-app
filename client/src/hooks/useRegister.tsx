@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { RegisterApiPayload, RegisterApiResponse } from "../types/types";
+import { RegisterApiPayload, RegisterApiResponse } from "../types/api.types";
 import toast from "react-hot-toast";
 
 const useRegister = () => {

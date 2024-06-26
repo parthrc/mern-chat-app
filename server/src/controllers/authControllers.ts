@@ -41,6 +41,13 @@ const loginUser = async (req: Request, res: Response) => {
     return res.status(200).json({
       status: "success",
       msg: "User registered successfully",
+      data: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        gender: user.gender,
+        profilePic: user.profilePic,
+      },
     });
   } catch (error) {
     return res.status(500).json({ status: "error", msg: error.message });
