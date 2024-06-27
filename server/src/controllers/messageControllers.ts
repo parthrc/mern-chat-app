@@ -82,7 +82,7 @@ const getMessages = async (req: ProtectedRequest, res: Response) => {
     return res.json({
       status: "success",
       msg: "Messages fetched successfully",
-      data: conversation.messages,
+      data: conversation,
     });
   } catch (error) {
     return res
@@ -91,4 +91,35 @@ const getMessages = async (req: ProtectedRequest, res: Response) => {
   }
 };
 
-export { sendMessage, getMessages };
+const getActiveConversations = async (req: ProtectedRequest, res: Response) => {
+  console.log("going inside try");
+  try {
+    const currentUserId = req.user._id;
+    console.log("Current user id=", currentUserId);
+
+    // Convert participantId to ObjectId
+    const participantObjectId = new mongoose.Types.ObjectId(
+      currentUserId as string
+    );
+
+    // get all convos of the current user
+    const allActiveConversations = await ConversationModel.find({
+      participants: { $in: [participantObjectId] },
+    }).exec();
+
+    console.log("Active convos=", allActiveConversations);
+
+    return res.status(200).json({
+      status: "success",
+      msg: "Active conversations fetched successfully",
+      totalActiveConversation: allActiveConversations.length,
+      data: allActiveConversations,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: "error", msg: `Server error: ${error.message}` });
+  }
+};
+
+export { sendMessage, getMessages, getActiveConversations };
