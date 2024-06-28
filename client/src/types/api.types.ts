@@ -1,3 +1,20 @@
+export enum Gender {
+  Male = "male",
+  Female = "female",
+  Other = "other",
+}
+export interface UserObject {
+  firstName: string;
+  lastName?: string;
+  email: string;
+  password: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  gender: Gender;
+  profilePic?: string;
+  conversations?: [];
+}
+
 export interface RegisterApiPayload {
   email: string;
   password: string;
@@ -30,11 +47,14 @@ export interface LoginApiResponse {
   };
 }
 
-
+export interface ActiveConversation {
+  conversationId: string;
+  otherParticipant: UserObject;
+}
 
 export interface GetActiveConversationsApiResponse {
   status: string;
   msg: string;
   totalActiveConversation: number;
-  data: [];
+  data: ActiveConversation[];
 }

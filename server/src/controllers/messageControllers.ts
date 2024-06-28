@@ -125,7 +125,7 @@ const getActiveConversations = async (req: ProtectedRequest, res: Response) => {
       });
       return {
         conversationId: convo._id,
-        oatherParticipant: otherParticipants[0],
+        otherParticipant: otherParticipants[0],
       };
     });
 
