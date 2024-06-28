@@ -4,10 +4,9 @@ import SidebarHeader from "./SidebarHeader";
 
 const Sidebar = () => {
   return (
-    <div className="flex w-full flex-col lg:min-w-[20rem] lg:w-[20rem]  max-h-screen border-r">
+    <div className="flex w-full flex-col lg:min-w-[20rem] lg:w-[20rem]  max-h-screen border-r border-black">
       <SidebarHeader />
       <SearchBar />
-
       <ActiveConvosList />
     </div>
   );

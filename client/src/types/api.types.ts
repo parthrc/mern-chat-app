@@ -1,9 +1,12 @@
+import { MessageObject } from "../store/useConversation";
+
 export enum Gender {
   Male = "male",
   Female = "female",
   Other = "other",
 }
 export interface UserObject {
+  _id: string;
   firstName: string;
   lastName?: string;
   email: string;
@@ -57,4 +60,18 @@ export interface GetActiveConversationsApiResponse {
   msg: string;
   totalActiveConversation: number;
   data: ActiveConversation[];
+}
+
+export interface GetMessagesApiPayload {
+  participantId: string;
+}
+
+export interface GetMessagesApiResponse {
+  status: string;
+  msg: string;
+  data: {
+    _id: string;
+    participants: string[];
+    messages: MessageObject[];
+  };
 }

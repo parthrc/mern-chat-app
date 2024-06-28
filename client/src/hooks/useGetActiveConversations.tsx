@@ -6,7 +6,9 @@ import { GetActiveConversationsApiResponse } from "../types/api.types";
 
 const useGetActiveConversations = () => {
   const [isLoading, setIsLoading] = useState(false);
+
   const URL = `${import.meta.env.VITE_API_URL}/messages/activeConversations`;
+
   const [activeConversations, setActiveConversations] = useState<[]>([]);
   useEffect(() => {
     const getActiveConversationsApi =

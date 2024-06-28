@@ -1,6 +1,6 @@
 import useGetActiveConversations from "../../../hooks/useGetActiveConversations";
 import useConversation from "../../../store/useConversation";
-import { ActiveConversation } from "../../../types/api.types";
+import { ActiveConversation, UserObject } from "../../../types/api.types";
 import AvatarImg from "./AvatarImg";
 
 const ActiveConvosList = () => {
@@ -10,8 +10,11 @@ const ActiveConvosList = () => {
   const { setSelectedConversation } = useConversation();
 
   // set selectedCpnversation in store
-  const handleConversationSelection = (conversationId: string) => {
-    setSelectedConversation(conversationId);
+  const handleConversationSelection = (
+    conversationId: string,
+    user: UserObject
+  ) => {
+    setSelectedConversation(conversationId, user);
   };
 
   if (isLoading) {
@@ -32,7 +35,12 @@ const ActiveConvosList = () => {
         <div
           className="bg-white w-full px-2 py-3 flex items-center border-b border-b-slate-300 hover:bg-slate-200 cursor-pointer gap-x-2"
           key={index}
-          onClick={() => handleConversationSelection(convo.conversationId)}
+          onClick={() =>
+            handleConversationSelection(
+              convo.conversationId,
+              convo.otherParticipant
+            )
+          }
         >
           <AvatarImg profileUrl={convo.otherParticipant.profilePic} />
           <div className="flex gap-x-1">

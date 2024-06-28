@@ -1,6 +1,7 @@
 import { create } from "zustand";
+import { UserObject } from "../types/api.types";
 
-interface Message {
+export interface MessageObject {
   _id: string;
   senderId: string;
   receiverId: string;
@@ -10,16 +11,21 @@ interface Message {
 }
 
 interface ConversationStore {
-  selectedConversation?: string;
-  setSelectedConversation: (selectConversationId: string) => void;
-  messages: Message[];
-  setMessages: (updatedMessages: Message[]) => void;
+  selectedConversation?: { conversationId?: string; user?: UserObject };
+  setSelectedConversation: (
+    selectConversationId?: string,
+    user?: UserObject
+  ) => void;
+  messages: MessageObject[];
+  setMessages: (updatedMessages: MessageObject[]) => void;
 }
 
 const useConversation = create<ConversationStore>((set) => ({
   selectedConversation: undefined,
-  setSelectedConversation: (selectConversationId) =>
-    set(() => ({ selectedConversation: selectConversationId })),
+  setSelectedConversation: (selectConversationId, user) =>
+    set(() => ({
+      selectedConversation: { conversationId: selectConversationId, user },
+    })),
   messages: [],
   setMessages: (updatedMessages) => set(() => ({ messages: updatedMessages })),
 }));

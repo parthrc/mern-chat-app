@@ -24,7 +24,7 @@ const SidebarHeader = () => {
   };
 
   return (
-    <div className="bg-slate-950 text-white px-4 py-3 flex items-center gap-x-2 justify-between">
+    <div className="bg-slate-950 text-white px-4 py-3 flex items-center gap-x-2 justify-between border-r">
       {/* Profile pic */}
       <div className="flex gap-x-2 items-center w-full">
         <AvatarImg />
