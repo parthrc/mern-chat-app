@@ -6,6 +6,7 @@ const useLogout = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const URL = `${import.meta.env.VITE_API_URL}/auth/logout`;
 
+
   const logoutApi = async () => {
     setIsLoading(true);
     try {
@@ -14,6 +15,7 @@ const useLogout = () => {
 
         { validateStatus: () => true, withCredentials: true }
       );
+
       return res.data;
     } catch (error) {
       toast.error("Error logging out");

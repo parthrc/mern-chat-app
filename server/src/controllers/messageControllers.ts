@@ -3,7 +3,7 @@ import ConversationModel from "../models/conversationModel";
 import MessageModel from "../models/messageModel";
 import { ProtectedRequest } from "../types/requestDefinitions";
 import mongoose from "mongoose";
-import UserModel from "../models/userModel";
+import UserModel, { IUser } from "../models/userModel";
 
 const sendMessage = async (req: ProtectedRequest, res: Response) => {
   try {
@@ -16,6 +16,9 @@ const sendMessage = async (req: ProtectedRequest, res: Response) => {
         .status(400)
         .json({ status: "error", msg: "Message cannot be blank" });
     }
+
+    console.log("Sender id", senderId);
+    console.log("reciever id", receiverId);
 
     // get conversation if it exists
     let conversation = await ConversationModel.findOne({
@@ -107,22 +110,28 @@ const getActiveConversations = async (req: ProtectedRequest, res: Response) => {
     const currentUserId = req.user._id;
 
     // Convert participantId to ObjectId
-    const participantObjectId = new mongoose.Types.ObjectId(
-      currentUserId as string
-    );
+    const participantObjectId = currentUserId.toString();
+
+    console.log("Current user Id:", currentUserId);
+    console.log("ParticipantId", participantObjectId);
+    console.log(currentUserId === participantObjectId);
 
     // get all convos of the current user
     const allActiveConversations = await ConversationModel.find({
-      participants: { $in: [participantObjectId] },
+      participants: { $in: [currentUserId] },
     })
       .populate({ path: "participants", select: "-password" })
       .exec();
-
+    console.log("All active convos", allActiveConversations);
     // Filter out the other participants
     const convos = allActiveConversations.map((convo) => {
-      const otherParticipants = convo.participants.filter((participant) => {
-        return participant.toString() !== currentUserId.toString();
-      });
+      const otherParticipants = convo.participants.filter(
+        (participant: any) => {
+          console.log("current string", currentUserId.toString());
+          console.log("participants string", participant.toString());
+          return participant._id.toString() !== currentUserId.toString();
+        }
+      );
       return {
         conversationId: convo._id,
         otherParticipant: otherParticipants[0],

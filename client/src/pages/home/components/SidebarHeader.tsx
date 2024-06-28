@@ -19,6 +19,7 @@ const SidebarHeader = () => {
   const handleLogout = async () => {
     logout();
     const res = await logoutApi();
+
     console.log(res);
     navigate("/login");
   };

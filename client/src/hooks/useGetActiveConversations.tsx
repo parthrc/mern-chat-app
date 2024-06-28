@@ -19,7 +19,7 @@ const useGetActiveConversations = () => {
             validateStatus: () => true,
             withCredentials: true,
           });
-
+          console.log("Active convos=", res.data.data);
           setActiveConversations(res.data.data);
           return res.data;
         } catch (error) {
