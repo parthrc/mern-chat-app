@@ -1,54 +1,40 @@
 import { useEffect, useState } from "react";
 import useConversation from "../../../store/useConversation";
 import toast from "react-hot-toast";
-import {
-  GetMessagesApiPayload,
-  GetMessagesApiResponse,
-} from "../../../types/api.types";
-import axios from "axios";
 import MessageBubble from "./MessageBubble";
+import useGetMessages from "../../../hooks/useGetMessages";
 
 const ChatMessages = () => {
   const { selectedConversation, setMessages, messages } = useConversation();
   const [isLoading, setIsLoading] = useState(false);
+  const { getMessagesApi } = useGetMessages();
 
   useEffect(() => {
-    if (!selectedConversation?.user?._id) return;
     setIsLoading(true);
     try {
-      const getMessagesApi = async ({
-        participantId,
-      }: GetMessagesApiPayload): Promise<GetMessagesApiResponse> => {
-        const URL = `${import.meta.env.VITE_API_URL}/messages/${participantId}`;
-        setIsLoading(true);
-        try {
-          const res = await axios.get(URL, {
-            validateStatus: () => true,
-            withCredentials: true,
-          });
-          if (res.data.status === "error") {
-            toast.error("Error fetching messages");
-          }
-          // console.log("Get messages=", res.data.data.messages);
-          setMessages(res.data.data.messages);
-          return res.data;
-        } catch (error) {
-          toast.error("Error fetching messages");
-          throw error;
-        } finally {
-          setIsLoading(false);
-        }
+      const fetchMessages = async () => {
+        if (!selectedConversation?.user?._id) return;
+        const res = await getMessagesApi({
+          participantId: selectedConversation?.user?._id,
+        });
+        setMessages(res.data.messages);
+        return res.data.messages;
       };
 
-      getMessagesApi({ participantId: selectedConversation?.user?._id });
+      fetchMessages();
     } catch (error) {
-      toast.error("Error loading messages");
+      toast.error("Error fetcxhing messages");
+    } finally {
+      setIsLoading(false);
     }
-  }, [selectedConversation, setMessages]);
+  }, [selectedConversation?.user?._id]);
 
   return (
     <div className=" bg-slate-200 w-full end grow overflow-y-auto flex-col">
       {isLoading && <div>Loading...</div>}
+      {!isLoading && messages.length === 0 && (
+        <div>No msgs yet, send your first message</div>
+      )}
       {!isLoading && messages && (
         <div className="flex flex-col w-full  gap-y-1">
           {messages.map((msg, index) => (

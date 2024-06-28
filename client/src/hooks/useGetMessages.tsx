@@ -20,7 +20,6 @@ const useGetMessages = () => {
         withCredentials: true,
       });
 
-      console.log("Get messages=", res);
       return res.data;
     } catch (error) {
       toast.error("Error fetching messages");
