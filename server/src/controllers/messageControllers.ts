@@ -3,6 +3,7 @@ import ConversationModel from "../models/conversationModel";
 import MessageModel from "../models/messageModel";
 import { ProtectedRequest } from "../types/requestDefinitions";
 import mongoose from "mongoose";
+import UserModel from "../models/userModel";
 
 const sendMessage = async (req: ProtectedRequest, res: Response) => {
   try {
@@ -15,8 +16,7 @@ const sendMessage = async (req: ProtectedRequest, res: Response) => {
         .status(400)
         .json({ status: "error", msg: "Message cannot be blank" });
     }
-    console.log("sender=", senderId);
-    console.log("receiver=", receiverId);
+
     // get conversation if it exists
     let conversation = await ConversationModel.findOne({
       participants: { $all: [senderId, receiverId] },
@@ -28,6 +28,16 @@ const sendMessage = async (req: ProtectedRequest, res: Response) => {
         participants: [senderId, receiverId],
       });
     }
+
+    // Add the conversation ID to both users' conversation arrays
+    await UserModel.findByIdAndUpdate(senderId, {
+      $push: { conversations: conversation._id },
+    });
+
+    await UserModel.findByIdAndUpdate(receiverId, {
+      $push: { conversations: conversation._id },
+    });
+
     // create a new message
     const newMessage = new MessageModel({
       senderId,
@@ -46,6 +56,7 @@ const sendMessage = async (req: ProtectedRequest, res: Response) => {
       // this will run in parallel
       await Promise.all([newMessage.save(), conversation.save()]);
       console.log(`Message sent to ${receiverId}`);
+
       return res
         .status(200)
         .json({ status: "success", msg: `Message sent successfully` });

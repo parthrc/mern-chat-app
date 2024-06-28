@@ -29,3 +29,12 @@ export interface LoginApiResponse {
     profilePic?: string;
   };
 }
+
+
+
+export interface GetActiveConversationsApiResponse {
+  status: string;
+  msg: string;
+  totalActiveConversation: number;
+  data: [];
+}

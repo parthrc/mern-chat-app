@@ -1,4 +1,5 @@
 import mongoose, { Document } from "mongoose";
+import { IConversation } from "./conversationModel";
 
 export enum Gender {
   Male = "male",
@@ -15,6 +16,7 @@ export interface IUser extends Document {
   updatedAt?: Date;
   gender: Gender;
   profilePic?: string;
+  conversations?: IConversation[];
 }
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -47,6 +49,13 @@ const userSchema = new mongoose.Schema<IUser>(
       type: String,
       default: "",
     },
+    conversations: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Conversation",
+        default: [],
+      },
+    ],
   },
   {
     timestamps: true, // Automatically manage createdAt and updatedAt fields

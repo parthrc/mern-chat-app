@@ -1,6 +1,8 @@
+// import useGetActiveConversations from "../../../hooks/useGetActiveConversations";
 import AvatarImg from "./AvatarImg";
 
 const ActiveConvosList = () => {
+  // const { activeConversations, isLoading } = useGetActiveConversations();
   return (
     <div className=" w-full overflow-y-auto ">
       {data.map((d, index) => (
