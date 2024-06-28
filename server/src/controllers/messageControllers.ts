@@ -92,10 +92,8 @@ const getMessages = async (req: ProtectedRequest, res: Response) => {
 };
 
 const getActiveConversations = async (req: ProtectedRequest, res: Response) => {
-  console.log("going inside try");
   try {
     const currentUserId = req.user._id;
-    console.log("Current user id=", currentUserId);
 
     // Convert participantId to ObjectId
     const participantObjectId = new mongoose.Types.ObjectId(
@@ -107,13 +105,19 @@ const getActiveConversations = async (req: ProtectedRequest, res: Response) => {
       participants: { $in: [participantObjectId] },
     }).exec();
 
-    console.log("Active convos=", allActiveConversations);
+    // Filter out the other participants
+    const convos = allActiveConversations.map((convo) => {
+      const otherParticipants = convo.participants.filter((participant) => {
+        return participant.toString() !== currentUserId.toString();
+      });
+      return { conversationId: convo._id, participants: otherParticipants[0] };
+    });
 
     return res.status(200).json({
       status: "success",
       msg: "Active conversations fetched successfully",
-      totalActiveConversation: allActiveConversations.length,
-      data: allActiveConversations,
+      totalActiveConversation: convos.length,
+      data: convos,
     });
   } catch (error) {
     return res
