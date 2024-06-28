@@ -4,10 +4,14 @@ import {
   AvatarImage,
 } from "../../../components/ui/avatar";
 
-const AvatarImg = () => {
+interface AvatarImgProps {
+  profileUrl?: string;
+}
+
+const AvatarImg = ({ profileUrl }: AvatarImgProps) => {
   return (
     <Avatar className="">
-      <AvatarImage src="https://github.com/shadcn.png" />
+      <AvatarImage src={profileUrl || "https://github.com/shadcn.png"} />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   );
