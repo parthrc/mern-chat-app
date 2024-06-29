@@ -112,23 +112,16 @@ const getActiveConversations = async (req: ProtectedRequest, res: Response) => {
     // Convert participantId to ObjectId
     const participantObjectId = currentUserId.toString();
 
-    console.log("Current user Id:", currentUserId);
-    console.log("ParticipantId", participantObjectId);
-    console.log(currentUserId === participantObjectId);
-
     // get all convos of the current user
     const allActiveConversations = await ConversationModel.find({
       participants: { $in: [currentUserId] },
     })
       .populate({ path: "participants", select: "-password" })
       .exec();
-    console.log("All active convos", allActiveConversations);
     // Filter out the other participants
     const convos = allActiveConversations.map((convo) => {
       const otherParticipants = convo.participants.filter(
         (participant: any) => {
-          console.log("current string", currentUserId.toString());
-          console.log("participants string", participant.toString());
           return participant._id.toString() !== currentUserId.toString();
         }
       );
@@ -137,8 +130,6 @@ const getActiveConversations = async (req: ProtectedRequest, res: Response) => {
         otherParticipant: otherParticipants[0],
       };
     });
-
-    console.log(convos);
 
     return res.status(200).json({
       status: "success",

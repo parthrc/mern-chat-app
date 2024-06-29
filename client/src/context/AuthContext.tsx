@@ -29,6 +29,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  // set the user from localStorage if it exists
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -36,11 +37,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
+  // login function, set user to local storage
   const login = (user: User) => {
     setUser(user);
     localStorage.setItem("user", JSON.stringify(user));
   };
 
+  // remove user from localStorage
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
