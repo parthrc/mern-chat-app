@@ -4,6 +4,7 @@ import MessageModel from "../models/messageModel";
 import { ProtectedRequest } from "../types/requestDefinitions";
 import mongoose from "mongoose";
 import UserModel, { IUser } from "../models/userModel";
+import { getReceiverSocketId, io } from "../socket";
 
 const sendMessage = async (req: ProtectedRequest, res: Response) => {
   try {
@@ -54,11 +55,16 @@ const sendMessage = async (req: ProtectedRequest, res: Response) => {
         newMessage._id as mongoose.Schema.Types.ObjectId
       );
 
-      // SOCKET IO
-
       // this will run in parallel
       await Promise.all([newMessage.save(), conversation.save()]);
       console.log(`Message sent to ${receiverId}`);
+
+      // SOCKET IO
+      // if the reciever is online, send them the message through socket
+      const receiverSocketId = getReceiverSocketId(receiverId);
+      if (receiverSocketId) {
+        io.to(receiverSocketId).emit("newMessage", newMessage);
+      }
 
       return res
         .status(200)

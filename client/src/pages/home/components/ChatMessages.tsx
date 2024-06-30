@@ -3,11 +3,14 @@ import useConversation from "../../../store/useConversation";
 import toast from "react-hot-toast";
 import MessageBubble from "./MessageBubble";
 import useGetMessages from "../../../hooks/useGetMessages";
+import useListenMessages from "../../../hooks/useListenMessages";
 
 const ChatMessages = () => {
   const { selectedConversation, setMessages, messages } = useConversation();
   const [isLoading, setIsLoading] = useState(false);
   const { getMessagesApi } = useGetMessages();
+  // incoming message listener
+  useListenMessages();
 
   useEffect(() => {
     setIsLoading(true);
@@ -27,7 +30,7 @@ const ChatMessages = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedConversation?.user?._id]);
+  }, [selectedConversation?.user?._id, messages, getMessagesApi, setMessages]);
 
   return (
     <div className=" bg-slate-200 w-full end grow overflow-y-auto flex-col">

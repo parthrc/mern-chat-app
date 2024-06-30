@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useConversation from "../store/useConversation";
 
 const useSendMessage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { messages, setMessages } = useConversation();
 
   const sendMessageApi = async (receiverId: string, message: string) => {
     setIsLoading(true);
@@ -18,7 +20,7 @@ const useSendMessage = () => {
         }
       );
       console.log("Send message res=", res.data);
-      return res.data;
+      setMessages([...messages, res.data]);
     } catch (error) {
       toast.error("Error sending message");
       throw error;

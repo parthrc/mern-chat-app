@@ -13,6 +13,11 @@ const io = new Server(server, {
   },
 });
 
+// helper fucntion to get socketId of a user
+export const getReceiverSocketId = (receiverId: string) => {
+  return socketUsersMap.get(receiverId);
+};
+
 // SOCKET FUNCTIONS
 const socketUsersMap = new Map<string, string>(); // Map of all the online users
 
@@ -30,6 +35,8 @@ io.on("connection", (socket) => {
     console.log("user disconnected:", socket.id);
     // Remove the user from the onlineUsers map on disconnect
     socketUsersMap.delete(userId);
+    // Emit event of updated onlineUsers to all connected clients
+    io.emit("getOnlineUsers", Array.from(socketUsersMap.keys()));
     console.log(socketUsersMap);
   });
 });

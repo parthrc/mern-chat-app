@@ -3,7 +3,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
-import { useAuth } from "../../../context/AuthContext";
 import { useSocket } from "../../../context/SocketContext";
 
 interface AvatarImgProps {
@@ -14,15 +13,8 @@ interface AvatarImgProps {
 const AvatarImg = ({ profileUrl, participantId }: AvatarImgProps) => {
   // get all onlineUsers from socket to set online status of current user
   const { onlineUsers } = useSocket();
-  const { user } = useAuth();
-  if (!user) return null;
-  let isOnline;
-  
-  if (participantId) {
-    isOnline = onlineUsers.includes(participantId);
-  } else {
-    isOnline = onlineUsers.includes(user.id);
-  }
+  if (!participantId) return null;
+  const isOnline = onlineUsers.includes(participantId);
 
   return (
     <div className="relative z-1">
