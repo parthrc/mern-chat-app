@@ -19,7 +19,6 @@ const useSendMessage = () => {
           withCredentials: true,
         }
       );
-      console.log("Send message res=", res.data.newMessage);
       setMessages([...messages, res.data.newMessage]);
     } catch (error) {
       toast.error("Error sending message");

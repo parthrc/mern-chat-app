@@ -22,7 +22,6 @@ const useGetMessages = () => {
           validateStatus: () => true,
           withCredentials: true,
         });
-        console.log("Res==", res.data.data.messages);
         setMessages(res.data.data.messages);
         return res.data.data.messages;
       } catch (error) {

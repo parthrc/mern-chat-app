@@ -8,6 +8,7 @@ export interface MessageObject {
   message: string;
   createdAt: string;
   updatedAt: string;
+  shouldShake?: boolean;
 }
 
 interface ConversationStore {
