@@ -14,12 +14,23 @@ const io = new Server(server, {
 });
 
 // SOCKET FUNCTIONS
+const socketUsersMap = new Map<string, string>(); // Map of all the online users
 
 io.on("connection", (socket) => {
-  console.log("user connected:", socket.id);
+  const userId = socket.handshake.query.userId as string;
+  console.log(userId, " :user connected:", socket.id);
+  // iF userId exists add it to onlineUsers Map
+  if (userId) socketUsersMap.set(userId, socket.id);
+  console.log(socketUsersMap);
+  // Emit event of updated onlineUsers to all connected clients
+  io.emit("getOnlineUsers", Array.from(socketUsersMap.keys()));
+  console.log("map=", Array.from(socketUsersMap.keys()));
 
   socket.on("disconnect", () => {
     console.log("user disconnected:", socket.id);
+    // Remove the user from the onlineUsers map on disconnect
+    socketUsersMap.delete(userId);
+    console.log(socketUsersMap);
   });
 });
 

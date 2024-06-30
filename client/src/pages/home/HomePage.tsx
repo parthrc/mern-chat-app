@@ -1,8 +1,14 @@
 // import { Link } from "react-router-dom";
 // import { Button } from "../../components/ui/button";
 import Dashboard from "./components/Dashboard";
+// import { useAuth } from "../../context/AuthContext";
+// import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  // const navigate = useNavigate();
+  // const { user } = useAuth();
+  // if (!user) return navigate("/login");
+
   return (
     <div className="w-full min-h-screen bg-slate-200 flex flex-col items-center">
       {/* <div className="flex flex-col items-center gap-y-4 my-auto">

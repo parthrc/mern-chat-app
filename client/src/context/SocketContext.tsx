@@ -30,8 +30,17 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     if (user) {
       console.log("ran ue");
       console.log(user);
-      const newSocket = io("http://localhost:8000/");
+      const newSocket = io("http://localhost:8000/", {
+        query: {
+          userId: user.id,
+        },
+      });
       setSocket(newSocket);
+
+      // Get all online users and set to localState
+      newSocket.on("getOnlineUsers", (data) => {
+        console.log("online users:", data);
+      });
 
       // Cleanup function
       return () => {

@@ -17,6 +17,8 @@ const ActiveConvosList = () => {
     setSelectedConversation(conversationId, user);
   };
 
+  if (!activeConversations) return null;
+
   if (isLoading) {
     return <div>Loading....</div>;
   }
