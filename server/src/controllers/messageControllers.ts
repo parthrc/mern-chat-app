@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import ConversationModel from "../models/conversationModel";
 import MessageModel from "../models/messageModel";
 import { ProtectedRequest } from "../types/requestDefinitions";
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 import UserModel, { IUser } from "../models/userModel";
 import { getReceiverSocketId, io } from "../socket";
 
@@ -66,9 +66,11 @@ const sendMessage = async (req: ProtectedRequest, res: Response) => {
         io.to(receiverSocketId).emit("newMessage", newMessage);
       }
 
-      return res
-        .status(200)
-        .json({ status: "success", msg: `Message sent successfully` });
+      return res.status(200).json({
+        status: "success",
+        msg: `Message sent successfully`,
+        newMessage,
+      });
     } else {
       return res
         .status(400)
@@ -83,8 +85,11 @@ const sendMessage = async (req: ProtectedRequest, res: Response) => {
 
 const getMessages = async (req: ProtectedRequest, res: Response) => {
   try {
-    const { userId: receiverId } = req.params;
+    const { userId } = req.params;
+    const receiverId = new mongoose.Types.ObjectId(userId);
     const senderId = req.user._id;
+    console.log("user id=", senderId);
+    console.log("reciever id=", receiverId);
 
     // get conversation, and populate the messages with the entire message object, since we only store ID's in the conversation object
     const conversation = await ConversationModel.findOne({

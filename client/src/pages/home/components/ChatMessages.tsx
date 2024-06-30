@@ -1,48 +1,31 @@
-import { useEffect, useState } from "react";
-import useConversation from "../../../store/useConversation";
-import toast from "react-hot-toast";
+import { useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
 import useGetMessages from "../../../hooks/useGetMessages";
 import useListenMessages from "../../../hooks/useListenMessages";
 
 const ChatMessages = () => {
-  const { selectedConversation, setMessages, messages } = useConversation();
-  const [isLoading, setIsLoading] = useState(false);
-  const { getMessagesApi } = useGetMessages();
-  // incoming message listener
+  const { messages, isLoading } = useGetMessages();
   useListenMessages();
+  const latestMsgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsLoading(true);
-    try {
-      const fetchMessages = async () => {
-        if (!selectedConversation?.user?._id) return;
-        const res = await getMessagesApi({
-          participantId: selectedConversation?.user?._id,
-        });
-        setMessages(res.data.messages);
-        return res.data.messages;
-      };
-
-      fetchMessages();
-    } catch (error) {
-      toast.error("Error fetcxhing messages");
-    } finally {
-      setIsLoading(false);
+    if (messages.length > 0) {
+      latestMsgRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [selectedConversation?.user?._id, messages, getMessagesApi, setMessages]);
+  }, [messages]);
 
   return (
-    <div className=" bg-slate-200 w-full end grow overflow-y-auto flex-col">
+    <div className="bg-slate-200 w-full grow overflow-y-auto flex flex-col">
       {isLoading && <div>Loading...</div>}
       {!isLoading && messages.length === 0 && (
-        <div>No msgs yet, send your first message</div>
+        <div>No messages yet, send your first message</div>
       )}
-      {!isLoading && messages && (
-        <div className="flex flex-col w-full  gap-y-1">
+      {!isLoading && messages.length > 0 && (
+        <div className="flex flex-col w-full gap-y-1">
           {messages.map((msg, index) => (
             <MessageBubble key={index} message={msg} />
           ))}
+          <div ref={latestMsgRef}></div>
         </div>
       )}
     </div>

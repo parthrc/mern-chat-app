@@ -28,7 +28,7 @@ const SidebarHeader = () => {
     <div className="bg-slate-950 text-white px-4 py-3 flex items-center gap-x-2 justify-between border-r">
       {/* Profile pic */}
       <div className="flex gap-x-2 items-center w-full">
-        <AvatarImg participantId={user?.id} />
+        <AvatarImg participantId={user?.id} profileUrl={user?.profilePic} />
         <p className=" truncate text-white">{`${user?.firstName} ${user?.lastName}`}</p>
       </div>
 
