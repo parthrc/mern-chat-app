@@ -44,7 +44,10 @@ const ActiveConvosList = () => {
             )
           }
         >
-          <AvatarImg profileUrl={convo.otherParticipant.profilePic} />
+          <AvatarImg
+            profileUrl={convo.otherParticipant.profilePic}
+            participantId={convo.otherParticipant._id}
+          />
           <div className="flex gap-x-1">
             <p>{convo.otherParticipant.firstName}</p>
             <p>{convo.otherParticipant.lastName}</p>

@@ -28,8 +28,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      console.log("ran ue");
-      console.log(user);
       const newSocket = io("http://localhost:8000/", {
         query: {
           userId: user.id,
@@ -38,12 +36,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       setSocket(newSocket);
 
       // Get all online users and set to localState
-      newSocket.on("getOnlineUsers", (data) => {
-        console.log("online users:", data);
+      newSocket.on("getOnlineUsers", (onlineUsers: string[]) => {
+        setOnlineUsers(onlineUsers);
       });
 
       // Cleanup function
       return () => {
+        console.log(onlineUsers);
         newSocket.close();
       };
     } else {
@@ -61,6 +60,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   );
 };
 
+// Custom hook to expose the socket context
 export const useSocket = () => {
   const context = useContext(SocketContext);
   if (context === undefined) {

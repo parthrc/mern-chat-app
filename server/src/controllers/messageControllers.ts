@@ -92,7 +92,6 @@ const getMessages = async (req: ProtectedRequest, res: Response) => {
         msg: "Conversation not found for given participants",
       });
     }
-    console.log("Conversation=", conversation);
     return res.json({
       status: "success",
       msg: "Messages fetched successfully",
