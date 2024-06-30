@@ -4,6 +4,7 @@ import {
   AvatarImage,
 } from "../../../components/ui/avatar";
 import { useSocket } from "../../../context/SocketContext";
+import { cn } from "../../../lib/utils";
 
 interface AvatarImgProps {
   profileUrl?: string;
@@ -23,9 +24,13 @@ const AvatarImg = ({ profileUrl, participantId }: AvatarImgProps) => {
 
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      {isOnline && (
-        <div className="bg-green-600 p-1 absolute bottom-2 -right-1 z-[99999] rounded-full "></div>
-      )}
+
+      <div
+        className={cn(
+          " p-[6px] absolute bottom-1 -right-1 z-[99999] rounded-full ",
+          isOnline ? "bg-green-600" : "bg-slate-400"
+        )}
+      ></div>
     </div>
   );
 };
