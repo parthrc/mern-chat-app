@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo_c
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server_c
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    environment:
+      - PORT=8000
+      - MONGO_URI_DOCKER=mongodb://mongo:27017/chatapp?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.5
+      - JWT_SECRET=slimshady666
+      - NODE_ENV=development
+      - FRONTEND_URL="http://localhost:5173"
+
+volumes:
+  mongo-data:
