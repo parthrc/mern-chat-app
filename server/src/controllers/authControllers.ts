@@ -40,7 +40,7 @@ const loginUser = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       status: "success",
-      msg: "User registered successfully",
+      msg: "User logged in successfully",
       data: {
         id: user._id,
         firstName: user.firstName,
