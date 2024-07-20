@@ -8,6 +8,6 @@ import express from "express";
 const router = express.Router();
 
 router.get("/", protectedRoute, getUsersForSidebar);
-router.get("/search/", protectedRoute, searchUsers);
+router.get("/search/:searchQuery", protectedRoute, searchUsers);
 
 export default router;

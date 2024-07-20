@@ -51,7 +51,7 @@ const getUsersForSidebar = async (req: ProtectedRequest, res: Response) => {
 
 const searchUsers = async (req: ProtectedRequest, res: Response) => {
   try {
-    const { searchQuery } = req.body;
+    const { searchQuery } = req.params;
 
     if (!searchQuery) {
       return res
