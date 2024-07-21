@@ -7,7 +7,7 @@ import { UserObject } from "../../../types/api.types";
 const SearchBar = () => {
   const { searchUsersApi, isLoading } = useSearchUsers();
   const [searchText, setSearchText] = useState("");
-  const [users, setUsers] = useState<UserObject[]>([]);
+  const [users, setUsers] = useState<UserObject[] | null>(null);
   console.log(users);
 
   const handleInputChange = async (
@@ -48,7 +48,7 @@ const SearchBar = () => {
           ))}
         </div>
       )}
-      {searchText && users.length === 0 && (
+      {searchText && (!users || users.length === 0) && (
         <div className="absolute bg-white border border-slate-400 w-full z-10 shadow-md overflow-y-auto max-h-[40vh] flex p-2 text-muted-foreground">
           no users found
         </div>
