@@ -7,7 +7,8 @@ import { UserObject } from "../../../types/api.types";
 const SearchBar = () => {
   const { searchUsersApi, isLoading } = useSearchUsers();
   const [searchText, setSearchText] = useState("");
-  const [users, setUsers] = useState<UserObject[] | null>(null);
+  const [users, setUsers] = useState<UserObject[]>([]);
+  console.log(users);
 
   const handleInputChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -36,7 +37,7 @@ const SearchBar = () => {
         />
         <FaSearch className="w-8 h-8 p-1" />
       </div>
-      {users ? (
+      {searchText && users && (
         <div className="absolute bg-white border border-slate-400 w-full z-10 shadow-md overflow-y-auto max-h-[40vh] cursor-pointer">
           {users.map((user, index) => (
             <div key={index} className="p-2 hover:bg-slate-100">
@@ -46,7 +47,8 @@ const SearchBar = () => {
             </div>
           ))}
         </div>
-      ) : (
+      )}
+      {searchText && users.length === 0 && (
         <div className="absolute bg-white border border-slate-400 w-full z-10 shadow-md overflow-y-auto max-h-[40vh] flex p-2 text-muted-foreground">
           no users found
         </div>
