@@ -9,6 +9,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
+  // check if authenticated
   useEffect(() => {
     if (!user) return navigate("/login");
   }, []);
