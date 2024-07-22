@@ -49,4 +49,39 @@ const getUsersForSidebar = async (req: ProtectedRequest, res: Response) => {
   }
 };
 
-export { getUsersForSidebar };
+const searchUsers = async (req: ProtectedRequest, res: Response) => {
+  try {
+    const { searchQuery } = req.params;
+
+    if (!searchQuery) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Please enter serach query" });
+    }
+    //regex for searchQuery, partial matches
+    const regex = new RegExp(searchQuery, "i");
+
+    // Find all users that match the search query in firstName, lastName, or email
+    const users = await UserModel.find({
+      $or: [{ firstName: regex }, { lastName: regex }, { email: regex }],
+    })
+      .limit(10)
+      .select("-password");
+
+    if (!users) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "No users found for current query" });
+    }
+
+    res
+      .status(200)
+      .json({ status: "success", msg: "search successfull", data: users });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: "error", msg: `Server error: ${error.message}` });
+  }
+};
+
+export { getUsersForSidebar, searchUsers };

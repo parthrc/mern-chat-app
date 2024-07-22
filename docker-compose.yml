@@ -104,4 +104,4 @@ services:
 
 # define the volumes to be used by the services
 volumes:
-  anime:
+  chatapp:

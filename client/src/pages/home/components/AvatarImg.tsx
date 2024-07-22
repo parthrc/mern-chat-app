@@ -27,7 +27,7 @@ const AvatarImg = ({ profileUrl, participantId }: AvatarImgProps) => {
 
       <div
         className={cn(
-          " p-[6px] absolute bottom-1 -right-1 z-[99999] rounded-full ",
+          " p-[6px] absolute bottom-1 -right-1 z-[999] rounded-full ",
           isOnline ? "bg-green-600" : "bg-slate-400"
         )}
       ></div>

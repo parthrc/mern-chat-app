@@ -154,4 +154,62 @@ const getActiveConversations = async (req: ProtectedRequest, res: Response) => {
   }
 };
 
-export { sendMessage, getMessages, getActiveConversations };
+const startNewConversation = async (req: ProtectedRequest, res: Response) => {
+  try {
+    const { userId: receiverId } = req.params;
+    const senderId = req.user._id;
+
+    console.log("Sender id", senderId);
+    console.log("reciever id", receiverId);
+
+    // get conversation if it exists
+    let conversation = await ConversationModel.findOne({
+      participants: { $all: [senderId, receiverId] },
+    });
+    // iff conversation exists
+    if (conversation) {
+      return res.status(200).json({
+        status: "success",
+        msg: `Convo already exists`,
+        convoId: conversation._id,
+      });
+    }
+
+    // create new conversation if it does not exists
+    if (!conversation) {
+      conversation = await ConversationModel.create({
+        participants: [senderId, receiverId],
+      });
+    }
+
+    // Add the conversation ID to both users' conversation arrays
+    await UserModel.findByIdAndUpdate(senderId, {
+      $push: { conversations: conversation._id },
+    });
+
+    await UserModel.findByIdAndUpdate(receiverId, {
+      $push: { conversations: conversation._id },
+    });
+
+    // get other participant user data
+    const participant = await UserModel.findById(receiverId);
+
+    return res.status(200).json({
+      status: "success",
+      msg: `Blank conversation created  successfully`,
+      conversationId: conversation._id,
+      otherparticipant: participant,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: "error", msg: `Server error: ${error.message}` });
+  }
+};
+
+export {
+  sendMessage,
+  getMessages,
+  getActiveConversations,
+  startNewConversation,
+};
