@@ -22,7 +22,7 @@ services:
     # specify the environment variables for the web service
     # these environment variables will be available inside the container
     environment:
-      VITE_API_URL: http://localhost:8000/api
+      VITE_API_URL: http://localhost:8001/api
 
     # this is for docker compose watch mode
     # anything mentioned under develop will be watched for changes by docker compose watch and it will perform the action mentioned
@@ -52,7 +52,7 @@ services:
     # the first number is the port on the host machine
     # the second number is the port inside the container
     ports:
-      - 8000:8000
+      - 8001:8001
 
     # specify environment variables for the api service
     # for demo purposes, we're using a local mongodb instance
