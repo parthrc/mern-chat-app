@@ -22,7 +22,7 @@ services:
     # specify the environment variables for the web service
     # these environment variables will be available inside the container
     environment:
-      VITE_API_URL: https://f4k0c0s.parthc.com/api
+      VITE_API_URL: https://l04c080.parthc.com/api
 
 
 
@@ -52,7 +52,7 @@ services:
 
       NODE_ENV: production
 
-      FORNTEND_URL: https://mgwk4ss.parthc.com
+      FORNTEND_URL: https://mggk4ow.parthc.com
 
    
 
