@@ -22,22 +22,9 @@ services:
     # specify the environment variables for the web service
     # these environment variables will be available inside the container
     environment:
-      VITE_API_URL: http://localhost:8001/api
+      VITE_API_URL: https://f4k0c0s.parthc.com/api
 
-    # this is for docker compose watch mode
-    # anything mentioned under develop will be watched for changes by docker compose watch and it will perform the action mentioned
-    develop:
-      # we specify the files to watch for changes
-      watch:
-        # it'll watch for changes in package.json and package-lock.json and rebuild the container if there are any changes
-        - path: ./client/package.json
-          action: rebuild
-        - path: ./client/package-lock.json
-          action: rebuild
-        # it'll watch for changes in the client directory and sync the changes with the container real time
-        - path: ./client
-          target: /app
-          action: sync
+
 
   # define the api service/container
   api:
@@ -57,30 +44,17 @@ services:
     # specify environment variables for the api service
     # for demo purposes, we're using a local mongodb instance
     environment:
-      PORT: 8000
+      PORT: 8001
 
-      MONGO_URI: mongodb://db/chatapp
+      MONGO_URI: mongodb://db:27017/chatapp
 
       JWT_SECRET: slimshady666
 
-      NODE_ENV: development
+      NODE_ENV: production
 
-      FORNTEND_URL: "http://localhost:5173"
+      FORNTEND_URL: https://mgwk4ss.parthc.com
 
-    # establish docker compose watch mode for the api service
-    develop:
-      # specify the files to watch for changes
-      watch:
-        # it'll watch for changes in package.json and package-lock.json and rebuild the container and image if there are any changes
-        - path: ./server/package.json
-          action: rebuild
-        - path: ./server/package-lock.json
-          action: rebuild
-
-        # it'll watch for changes in the server directory and sync the changes with the container real time
-        - path: ./server
-          target: /app
-          action: sync
+   
 
   # define the db service
   db:
